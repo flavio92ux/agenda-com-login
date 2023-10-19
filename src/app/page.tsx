@@ -1,11 +1,12 @@
-'use client';
+import { getSession } from '@auth0/nextjs-auth0'
+import { redirect } from 'next/navigation'
 
-import React from 'react';
+export default async function Index() {
+  const session = await getSession()
 
-export default function Index() {
-  return (
-    <>
-      <h1>Logue na aplicação para ter acesso aos conteúdos</h1>
-    </>
-  );
+  if (session) {
+    redirect('/dashboard')
+  }
+
+  redirect('/api/auth/login')
 }
