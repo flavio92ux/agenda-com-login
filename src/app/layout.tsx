@@ -1,16 +1,14 @@
 import { UserProvider } from '@auth0/nextjs-auth0/client'
-import Teste from './components/Teste'
 
-export default function RootLayout({
-  children,
-}: {
+interface IChildren {
   children: React.ReactNode
-}) {
+}
+
+export default async function RootLayout({ children }: IChildren) {
   return (
     <html lang='en'>
       <UserProvider>
         <body>{children}</body>
-        <Teste />
       </UserProvider>
     </html>
   )
