@@ -5,7 +5,7 @@ export default async function Dashboard() {
 
   return (
     <>
-      <h1>Bem vindo, {user.nickname}</h1>
+      <h1 className='text-9xl text-red-600'>Bem vindo, {user.nickname}</h1>
       <div>
         <a href='/api/auth/logout'>Fazer logoff</a>
       </div>
