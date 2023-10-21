@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { headers } from 'next/headers'
-import { getSession } from '@auth0/nextjs-auth0'
 
 import calendario from '@/assets/img/calendario.png'
 
@@ -15,13 +14,7 @@ interface IUser {
   sid: string
 }
 
-interface ISession {
-  user: IUser
-}
-
-export default async function NavBar() {
-  const { user }: any = await getSession()
-
+export default async function NavBar({ user }) {
   const headersList = headers()
 
   const fullUrl = headersList.get('referer')
@@ -32,8 +25,6 @@ export default async function NavBar() {
     const splittedUrl = fullUrl.split('/')
     namePage = splittedUrl[splittedUrl.length - 1]
   }
-
-	console.log('Click')
 
   return (
     <nav className='bg-white shadow-lg'>
