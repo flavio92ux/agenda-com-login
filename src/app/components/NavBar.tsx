@@ -1,19 +1,15 @@
+'use client'
+
 import Image from 'next/image'
-import { headers } from 'next/headers'
+import { usePathname } from 'next/navigation'
 
 import calendario from '@/assets/img/calendario.png'
+import Link from 'next/link'
 
-export default async function NavBar({ user }) {
-  const headersList = headers()
+export default function NavBar({ user }) {
+	const pathname = usePathname()
 
-  const fullUrl = headersList.get('referer')
-
-  let namePage
-
-  if (fullUrl) {
-    const splittedUrl = fullUrl.split('/')
-    namePage = splittedUrl[splittedUrl.length - 1]
-  }
+	console.log(pathname)
 
   return (
     <nav className='bg-white shadow-lg'>
@@ -21,7 +17,7 @@ export default async function NavBar({ user }) {
         <div className='flex justify-between'>
           <div className='flex space-x-7'>
             <div>
-              <a href='#' className='flex items-center py-4 px-2'>
+              <Link href='/dashboard' className='flex items-center py-4 px-2'>
                 <Image
                   src={calendario}
                   width={32}
@@ -32,30 +28,30 @@ export default async function NavBar({ user }) {
                 <span className='font-semibold text-gray-500 text-lg'>
                   Agenda
                 </span>
-              </a>
+              </Link>
             </div>
 
             <div className='hidden md:flex items-center space-x-1'>
-              <a
+              <Link
                 href='/dashboard'
                 className={`py-4 px-2 font-semibold ${
-                  namePage === 'dashboard'
+                  pathname === '/dashboard'
                     ? 'text-green-500 border-b-4 border-green-500'
                     : 'text-gray-500 hover:text-green-500 transition duration-300'
                 }`}
               >
                 Home
-              </a>
-              <a
+              </Link>
+              <Link
                 href='/services'
 								className={`py-4 px-2 font-semibold ${
-                  namePage === 'services'
+                  pathname === '/services'
                     ? 'text-green-500 border-b-4 border-green-500'
                     : 'text-gray-500 hover:text-green-500 transition duration-300'
                 }`}
               >
                 Services
-              </a>
+              </Link>
             </div>
           </div>
 
