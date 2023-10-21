@@ -6,10 +6,14 @@ import { usePathname } from 'next/navigation'
 import calendario from '@/assets/img/calendario.png'
 import Link from 'next/link'
 
-export default function NavBar({ user }) {
-	const pathname = usePathname()
+function toogleMenu() {
+  const menu = document.querySelector('.mobile-menu')
 
-	console.log(pathname)
+  menu.classList.toggle('hidden')
+}
+
+export default function NavBar({ user }) {
+  const pathname = usePathname()
 
   return (
     <nav className='bg-white shadow-lg'>
@@ -44,7 +48,7 @@ export default function NavBar({ user }) {
               </Link>
               <Link
                 href='/services'
-								className={`py-4 px-2 font-semibold ${
+                className={`py-4 px-2 font-semibold ${
                   pathname === '/services'
                     ? 'text-green-500 border-b-4 border-green-500'
                     : 'text-gray-500 hover:text-green-500 transition duration-300'
@@ -77,7 +81,7 @@ export default function NavBar({ user }) {
             </a>
           </div>
 
-          <div className='md:hidden flex items-center'>
+          <div onClick={toogleMenu} className='md:hidden flex items-center'>
             <button className='outline-none mobile-menu-button'>
               <svg
                 className=' w-6 h-6 text-gray-500 hover:text-green-500 '
@@ -96,38 +100,22 @@ export default function NavBar({ user }) {
         </div>
       </div>
 
-      <div className='hidden mobile-menu'>
+      <div className='hidden absolute mobile-menu bg-green-200 w-full'>
         <ul className=''>
-          <li className='active'>
+          <li>
             <a
-              href='index.html'
-              className='block text-sm px-2 py-4 text-white bg-green-500 font-semibold'
+              href='/dashboard'
+              className='block text-sm px-2 py-4 hover:bg-green-500 transition duration-300 font-semibold'
             >
               Home
             </a>
           </li>
           <li>
             <a
-              href='#services'
-              className='block text-sm px-2 py-4 hover:bg-green-500 transition duration-300'
+              href='/services'
+              className='block text-sm px-2 py-4 hover:bg-green-500 transition duration-300 font-semibold'
             >
               Services
-            </a>
-          </li>
-          <li>
-            <a
-              href='#about'
-              className='block text-sm px-2 py-4 hover:bg-green-500 transition duration-300'
-            >
-              About
-            </a>
-          </li>
-          <li>
-            <a
-              href='#contact'
-              className='block text-sm px-2 py-4 hover:bg-green-500 transition duration-300'
-            >
-              Contact Us
             </a>
           </li>
         </ul>
