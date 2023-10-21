@@ -17,7 +17,6 @@ export default function AddCustomerModal(props) {
   function handleSubmit() {
     people.push(data)
     setOpen(false)
-    console.log('Ola')
   }
 
   const cancelButtonRef = useRef(null)
