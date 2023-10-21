@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { headers } from 'next/headers'
 import NavBar from '@/app/components/NavBar'
 
-interface IChildren {
+interface IProp {
   children: React.ReactNode
 }
 
@@ -29,7 +29,7 @@ if (fullUrl) {
   namePage = splittedUrl[splittedUrl.length - 1]
 }
 
-export default async function AdminLayout({ children }: IChildren) {
+export default async function AdminLayout({ children }: IProp) {
   const session = await getSession()
 
   if (!session) {
