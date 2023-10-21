@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useRef } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Typography } from '@material-tailwind/react'
 import { IMaskInput } from 'react-imask'
@@ -8,9 +8,15 @@ import { IMaskInput } from 'react-imask'
 export default function AddCustomerModal(props) {
   const { open, setOpen } = props
 
+  const [data, setData] = useState({
+    name: '',
+    address: '',
+    phone: '',
+  })
+
   const cancelButtonRef = useRef(null)
 
-  const mask = [{ mask: '(00) 0000-0000' }, { mask: '(00) 00000-0000' }]
+  const mask = [{ mask: '(00) 00000-0000' }, { mask: '(00) 00000-0000' }]
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -65,6 +71,9 @@ export default function AddCustomerModal(props) {
                             </Typography>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              onChange={(e) =>
+                                setData({ ...data, name: e.target.value })
+                              }
                               id='username'
                               type='text'
                               placeholder='Nome'
@@ -78,11 +87,14 @@ export default function AddCustomerModal(props) {
                             </Typography>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                              id='username'
+                              onChange={(e) =>
+                                setData({ ...data, address: e.target.value })
+                              }
+                              id='address'
                               type='text'
                               placeholder='Rua Um'
                             />
-  
+
                             <Typography
                               variant='h6'
                               color='blue-gray'
@@ -93,9 +105,12 @@ export default function AddCustomerModal(props) {
 
                             <IMaskInput
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              onChange={(e: any) =>
+                                setData({ ...data, phone: e.target.value })
+                              }
                               mask={mask}
-                              name="phone"
-                              placeholder="Enter phone number here"
+                              name='phone'
+                              placeholder='Enter phone number here'
                             />
                           </div>
                         </form>
@@ -106,7 +121,18 @@ export default function AddCustomerModal(props) {
                 <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
                   <button
                     type='button'
-                    className='inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto'
+                    disabled={
+                      data.name.length < 5 ||
+                      data.address.length < 5 ||
+                      data.phone.length !== 15
+                    }
+                    className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto ${
+                      data.name.length < 5 ||
+                      data.address.length < 5 ||
+                      data.phone.length !== 15
+                        ? 'bg-gray-300'
+                        : 'hover:bg-red-500 bg-red-600'
+                    }`}
                     onClick={() => setOpen(false)}
                   >
                     Adicionar
