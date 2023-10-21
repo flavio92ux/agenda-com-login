@@ -1,7 +1,25 @@
 import Image from 'next/image'
 import calendario from '@/assets/img/calendario.png'
+import { getSession } from '@auth0/nextjs-auth0'
 
-export default function NavBar() {
+interface IUser {
+  nickname: string,
+  name: string,
+  picture: string,
+  updated_at: string,
+  email: string,
+  email_verified: boolean,
+  sub: string,
+  sid: string
+}
+
+interface ISession {
+	user: IUser
+}
+
+export default async function NavBar() {
+	const { user }: any = await getSession()
+
   return (
     <nav className='bg-white shadow-lg'>
       <div className='max-w-6xl mx-auto px-4'>
@@ -17,7 +35,7 @@ export default function NavBar() {
                   className='h-8 w-8 mr-2'
                 />
                 <span className='font-semibold text-gray-500 text-lg'>
-                  Navigation
+                  Agenda
                 </span>
               </a>
             </div>
@@ -53,15 +71,9 @@ export default function NavBar() {
           <div className='hidden md:flex items-center space-x-3 '>
             <a
               href=''
-              className='py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300'
-            >
-              Log In
-            </a>
-            <a
-              href=''
               className='py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300'
             >
-              Sign Up
+              Sair
             </a>
           </div>
 
