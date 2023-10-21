@@ -3,22 +3,22 @@ import calendario from '@/assets/img/calendario.png'
 import { getSession } from '@auth0/nextjs-auth0'
 
 interface IUser {
-  nickname: string,
-  name: string,
-  picture: string,
-  updated_at: string,
-  email: string,
-  email_verified: boolean,
-  sub: string,
+  nickname: string
+  name: string
+  picture: string
+  updated_at: string
+  email: string
+  email_verified: boolean
+  sub: string
   sid: string
 }
 
 interface ISession {
-	user: IUser
+  user: IUser
 }
 
 export default async function NavBar() {
-	const { user }: any = await getSession()
+  const { user }: any = await getSession()
 
   return (
     <nav className='bg-white shadow-lg'>
@@ -43,7 +43,7 @@ export default async function NavBar() {
             <div className='hidden md:flex items-center space-x-1'>
               <a
                 href=''
-                className='py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold '
+                className='py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold'
               >
                 Home
               </a>
@@ -69,8 +69,20 @@ export default async function NavBar() {
           </div>
 
           <div className='hidden md:flex items-center space-x-3 '>
+            <div className='flex flex-row items-center'>
+              
+                <Image
+                  src={user.picture}
+                  width={32}
+                  height={32}
+                  alt='calendário'
+                  className='h-8 w-8 mr-2'
+                />
+              
+              <p className='py-4 px-2 font-semibold'>{user.nickname}</p>
+            </div>
             <a
-              href=''
+              href='/api/auth/logout'
               className='py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300'
             >
               Sair
