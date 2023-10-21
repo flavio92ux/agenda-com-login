@@ -1,6 +1,8 @@
 import Image from 'next/image'
-import calendario from '@/assets/img/calendario.png'
+import { headers } from 'next/headers'
 import { getSession } from '@auth0/nextjs-auth0'
+
+import calendario from '@/assets/img/calendario.png'
 
 interface IUser {
   nickname: string
@@ -19,6 +21,19 @@ interface ISession {
 
 export default async function NavBar() {
   const { user }: any = await getSession()
+
+  const headersList = headers()
+
+  const fullUrl = headersList.get('referer')
+
+  let namePage
+
+  if (fullUrl) {
+    const splittedUrl = fullUrl.split('/')
+    namePage = splittedUrl[splittedUrl.length - 1]
+  }
+
+	console.log('Click')
 
   return (
     <nav className='bg-white shadow-lg'>
@@ -42,28 +57,24 @@ export default async function NavBar() {
 
             <div className='hidden md:flex items-center space-x-1'>
               <a
-                href=''
-                className='py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold'
+                href='/dashboard'
+                className={`py-4 px-2 font-semibold ${
+                  namePage === 'dashboard'
+                    ? 'text-green-500 border-b-4 border-green-500'
+                    : 'text-gray-500 hover:text-green-500 transition duration-300'
+                }`}
               >
                 Home
               </a>
               <a
-                href=''
-                className='py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300'
+                href='/services'
+								className={`py-4 px-2 font-semibold ${
+                  namePage === 'services'
+                    ? 'text-green-500 border-b-4 border-green-500'
+                    : 'text-gray-500 hover:text-green-500 transition duration-300'
+                }`}
               >
                 Services
-              </a>
-              <a
-                href=''
-                className='py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300'
-              >
-                About
-              </a>
-              <a
-                href=''
-                className='py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300'
-              >
-                Contact Us
               </a>
             </div>
           </div>
@@ -75,7 +86,7 @@ export default async function NavBar() {
                 width={32}
                 height={32}
                 alt='calendário'
-                className='h-8 w-8 mr-2'
+                className='h-8 w-8 mr-2 rounded-full'
               />
 
               <div className='border-r border-gray-200 mx-3 my-[14px]'>
