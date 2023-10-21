@@ -4,9 +4,8 @@ import Modal from "./NewCustomerModal"
 
 interface IPeople {
   name: string
-  title: string
-  email: string
-  role: string
+  address: string
+  phone: string
 }
 
 interface IPrincipalPanel {
@@ -18,7 +17,7 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
 
   return (
     <>
-      {open && <Modal open={open} setOpen={setOpen} />}
+      {open && <Modal open={open} setOpen={setOpen} people={people} />}
       <div className='px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:items-center'>
           <div className='sm:flex-auto'>
@@ -71,15 +70,15 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
                   </thead>
                   <tbody className='divide-y divide-gray-200 bg-white'>
                     {people.map((person) => (
-                      <tr key={person.email}>
+                      <tr key={person.name}>
                         <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'>
                           {person.name}
                         </td>
                         <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-                          {person.title}
+                          {person.address}
                         </td>
                         <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-                          {person.email}
+                          {person.phone}
                         </td>
                         <td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
                           <a

@@ -6,13 +6,19 @@ import { Typography } from '@material-tailwind/react'
 import { IMaskInput } from 'react-imask'
 
 export default function AddCustomerModal(props) {
-  const { open, setOpen } = props
+  const { open, setOpen, people } = props
 
   const [data, setData] = useState({
     name: '',
     address: '',
     phone: '',
   })
+
+  function handleSubmit() {
+    people.push(data)
+    setOpen(false)
+    console.log('Ola')
+  }
 
   const cancelButtonRef = useRef(null)
 
@@ -133,7 +139,7 @@ export default function AddCustomerModal(props) {
                         ? 'bg-gray-300'
                         : 'hover:bg-red-500 bg-red-600'
                     }`}
-                    onClick={() => setOpen(false)}
+                    onClick={handleSubmit}
                   >
                     Adicionar
                   </button>
