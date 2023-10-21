@@ -17,6 +17,7 @@ export default async function AdminLayout({ children }: IChildren) {
     <html lang='en'>
         <body>
           <NavBar />
+          <div className='mb-4' />
           {children}
         </body>
     </html>
