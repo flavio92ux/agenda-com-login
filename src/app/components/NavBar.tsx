@@ -3,17 +3,6 @@ import { headers } from 'next/headers'
 
 import calendario from '@/assets/img/calendario.png'
 
-interface IUser {
-  nickname: string
-  name: string
-  picture: string
-  updated_at: string
-  email: string
-  email_verified: boolean
-  sub: string
-  sid: string
-}
-
 export default async function NavBar({ user }) {
   const headersList = headers()
 
