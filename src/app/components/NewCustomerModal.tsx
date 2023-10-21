@@ -3,11 +3,14 @@
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Typography } from '@material-tailwind/react'
+import { IMaskInput } from 'react-imask'
 
 export default function AddCustomerModal(props) {
   const { open, setOpen } = props
 
   const cancelButtonRef = useRef(null)
+
+  const mask = [{ mask: '(00) 0000-0000' }, { mask: '(00) 00000-0000' }]
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -79,6 +82,7 @@ export default function AddCustomerModal(props) {
                               type='text'
                               placeholder='Rua Um'
                             />
+  
                             <Typography
                               variant='h6'
                               color='blue-gray'
@@ -86,11 +90,12 @@ export default function AddCustomerModal(props) {
                             >
                               Telefone
                             </Typography>
-                            <input
+
+                            <IMaskInput
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                              id='username'
-                              type='text'
-                              placeholder='(31) 555555555'
+                              mask={mask}
+                              name="phone"
+                              placeholder="Enter phone number here"
                             />
                           </div>
                         </form>
