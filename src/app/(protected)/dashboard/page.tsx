@@ -6,7 +6,6 @@ export default async function Dashboard() {
     { name: 'Guilherme Bao',  title: 'Front-end Developer', email: 'lindsay.walton@example2.com', role: 'Member' },
     { name: 'Professor Wilson', title: 'Front-end Developer', email: 'lindsay.walton@example3.com', role: 'Member' },
     { name: 'Raduque Jeremias', title: 'Front-end Developer', email: 'lindsay.walton@example4.com', role: 'Member' },
-    // More people...
   ]
 
   return (
