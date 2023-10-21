@@ -1,10 +1,10 @@
 'use client'
 
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-export default function Modal(props) {
+export default function AddCustomerModal(props) {
   const { open, setOpen } = props
 
   const cancelButtonRef = useRef(null)

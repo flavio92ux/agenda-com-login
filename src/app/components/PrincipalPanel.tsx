@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react"
-import Modal from "./Modal"
+import Modal from "./AddCustomerModal"
 
 interface IPeople {
   name: string

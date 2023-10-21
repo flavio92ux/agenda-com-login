@@ -1,5 +1,4 @@
 import PrincipalPanel from '@/app/components/PrincipalPanel'
-import Modal from '@/app/components/Modal'
 
 export default async function Dashboard() {
   const people = [
