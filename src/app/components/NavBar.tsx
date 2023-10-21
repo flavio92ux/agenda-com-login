@@ -70,16 +70,17 @@ export default async function NavBar() {
 
           <div className='hidden md:flex items-center space-x-3 '>
             <div className='flex flex-row items-center'>
-              
-                <Image
-                  src={user.picture}
-                  width={32}
-                  height={32}
-                  alt='calendário'
-                  className='h-8 w-8 mr-2'
-                />
-              
-              <p className='py-4 px-2 font-semibold'>{user.nickname}</p>
+              <Image
+                src={user.picture}
+                width={32}
+                height={32}
+                alt='calendário'
+                className='h-8 w-8 mr-2'
+              />
+
+              <div className='border-r border-gray-200 mx-3 my-[14px]'>
+                <p className='font-semibold mr-3'>{user.nickname}</p>
+              </div>
             </div>
             <a
               href='/api/auth/logout'
