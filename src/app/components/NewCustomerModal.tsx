@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 //import { Typography } from '@material-tailwind/react'
-//import { IMaskInput } from 'react-imask'
+import { IMaskInput } from 'react-imask'
 
 export default function AddCustomerModal(props) {
   const { open, setOpen, people, chave } = props
@@ -76,14 +76,14 @@ export default function AddCustomerModal(props) {
                       </Dialog.Title>
                       <div className='mt-2'>
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
-                          {/* <div className='mb-1 flex flex-col gap-6'>
-                            <Typography
+                          <div className='mb-1 flex flex-col gap-6'>
+                            {/* <Typography
                               variant='h6'
                               color='blue-gray'
                               className='-mb-3'
                             >
                               Nome
-                            </Typography>
+                            </Typography> */}
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -94,13 +94,13 @@ export default function AddCustomerModal(props) {
                               type='text'
                               placeholder='Nome'
                             />
-                            <Typography
+                            {/* <Typography
                               variant='h6'
                               color='blue-gray'
                               className='-mb-3'
                             >
                               Endereço
-                            </Typography>
+                            </Typography> */}
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -112,13 +112,13 @@ export default function AddCustomerModal(props) {
                               placeholder='Rua Um'
                             />
 
-                            <Typography
+                            {/* <Typography
                               variant='h6'
                               color='blue-gray'
                               className='-mb-3'
                             >
                               Telefone
-                            </Typography>
+                            </Typography> */}
 
                             <IMaskInput
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -130,7 +130,7 @@ export default function AddCustomerModal(props) {
                               name='phone'
                               placeholder='Enter phone number here'
                             />
-                          </div> */}
+                          </div>
                         </form>
                       </div>
                     </div>
