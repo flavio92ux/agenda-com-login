@@ -15,6 +15,13 @@ interface IPrincipalPanel {
 
 export default function PrincipalPanel({ people }: IPrincipalPanel) {
   const [open, setOpen] = useState(false)
+  const [peopleList, setPeopleList] = useState(people)
+
+  function handleDelete(key) {
+    const updatedPeopleList = peopleList.filter((_, index) => index !== key)
+    
+    setPeopleList(updatedPeopleList)
+  }
 
   return (
     <>
@@ -70,8 +77,8 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
                     </tr>
                   </thead>
                   <tbody className='divide-y divide-gray-200 bg-white'>
-                    {people.map((person) => (
-                      <tr key={person.name}>
+                    {peopleList.map((person, key) => (
+                      <tr key={key}>
                         <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'>
                           {person.name}
                         </td>
@@ -87,7 +94,7 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
                           </button>
                         </td>
                         <td>
-                          <button>
+                          <button onClick={() => handleDelete(key)}>
                             <TrashIcon className='w-5 h-5' />
                           </button>
                         </td>
