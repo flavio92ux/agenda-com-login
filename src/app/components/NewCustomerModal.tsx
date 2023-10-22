@@ -69,7 +69,7 @@ export default function AddCustomerModal(props) {
                     <div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left'>
                       <Dialog.Title
                         as='h3'
-                        className='text-base font-semibold leading-6 text-gray-900'
+                        className='text-2xl font-semibold leading-6 text-gray-900'
                       >
                         {typeof chave === 'number'
                           ? 'Editar dados do usuário'
@@ -79,7 +79,7 @@ export default function AddCustomerModal(props) {
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
                           <div className='mb-1 flex flex-col gap-6'>
                             <label
-                              className='-mb-3'
+                              className='flex -mb-3'
                               htmlFor='username'>
                             Nome
                             </label>
@@ -91,10 +91,10 @@ export default function AddCustomerModal(props) {
                               value={data.name}
                               id='username'
                               type='text'
-                              placeholder='Nome'
+                              placeholder='Digite seu nome'
                             />
 
-                            <label className='-mb-3' htmlFor='address'>Endereço</label>
+                            <label className='flex -mb-3' htmlFor='address'>Endereço</label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -106,7 +106,7 @@ export default function AddCustomerModal(props) {
                               placeholder='Rua Um'
                             />
 
-                            <label className='-mb-3' htmlFor='Telefone'>Endereço</label>
+                            <label className='flex -mb-3' htmlFor='phone'>Telefone</label>
                             <IMaskInput
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e: any) =>
@@ -115,7 +115,7 @@ export default function AddCustomerModal(props) {
                               value={data.phone}
                               mask={mask}
                               name='phone'
-                              placeholder='Enter phone number here'
+                              placeholder='(31) 99999-9999'
                             />
                           </div>
                         </form>
