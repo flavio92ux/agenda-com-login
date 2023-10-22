@@ -1,12 +1,12 @@
 'use client'
 
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Typography } from '@material-tailwind/react'
 import { IMaskInput } from 'react-imask'
 
 export default function AddCustomerModal(props) {
-  const { open, setOpen, people } = props
+  const { open, setOpen, people, chave } = props
 
   const [data, setData] = useState({
     name: '',
@@ -14,8 +14,18 @@ export default function AddCustomerModal(props) {
     phone: '',
   })
 
+  useEffect(() => {
+    if (typeof chave ==='number') {
+      setData(people[chave])
+    }
+  }, [])
+
   function handleSubmit() {
-    people.push(data)
+    if (typeof chave === 'number') {
+      people[chave] = data
+    } else {
+      people.push(data)
+    } 
     setOpen(false)
   }
 
@@ -62,7 +72,7 @@ export default function AddCustomerModal(props) {
                         as='h3'
                         className='text-base font-semibold leading-6 text-gray-900'
                       >
-                        Adicionar cliente
+                        {typeof chave === 'number' ? 'Editar dados do cliente' : 'Adicionar cliente'}
                       </Dialog.Title>
                       <div className='mt-2'>
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
@@ -79,6 +89,7 @@ export default function AddCustomerModal(props) {
                               onChange={(e) =>
                                 setData({ ...data, name: e.target.value })
                               }
+                              value={data.name}
                               id='username'
                               type='text'
                               placeholder='Nome'
@@ -95,6 +106,7 @@ export default function AddCustomerModal(props) {
                               onChange={(e) =>
                                 setData({ ...data, address: e.target.value })
                               }
+                              value={data.address}
                               id='address'
                               type='text'
                               placeholder='Rua Um'
@@ -113,6 +125,7 @@ export default function AddCustomerModal(props) {
                               onChange={(e: any) =>
                                 setData({ ...data, phone: e.target.value })
                               }
+                              value={data.phone}
                               mask={mask}
                               name='phone'
                               placeholder='Enter phone number here'
@@ -127,20 +140,20 @@ export default function AddCustomerModal(props) {
                   <button
                     type='button'
                     disabled={
-                      data.name.length < 5 ||
-                      data.address.length < 5 ||
+                      data.name.length < 3 ||
+                      data.address.length < 3 ||
                       data.phone.length !== 15
                     }
                     className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto ${
-                      data.name.length < 5 ||
-                      data.address.length < 5 ||
+                      data.name.length < 3 ||
+                      data.address.length < 3 ||
                       data.phone.length !== 15
                         ? 'bg-gray-300'
                         : 'hover:bg-red-500 bg-red-600'
                     }`}
                     onClick={handleSubmit}
                   >
-                    Adicionar
+                    { typeof chave === 'number' ? 'Editar' : 'Adicionar' } 
                   </button>
                   <button
                     type='button'

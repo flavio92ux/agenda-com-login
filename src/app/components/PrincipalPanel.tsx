@@ -16,6 +16,7 @@ interface IPrincipalPanel {
 export default function PrincipalPanel({ people }: IPrincipalPanel) {
   const [open, setOpen] = useState(false)
   const [peopleList, setPeopleList] = useState(people)
+  const [key, setKey] = useState(null)
 
   function handleDelete(key) {
     const updatedPeopleList = peopleList.filter((_, index) => index !== key)
@@ -23,9 +24,19 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
     setPeopleList(updatedPeopleList)
   }
 
+  function handleAddCustomer() {
+    setKey(null)
+    setOpen(true)
+  }
+
+  function handleEdit(key) {
+    setOpen(true)
+    setKey(key)
+  }
+
   return (
     <>
-      {open && <Modal open={open} setOpen={setOpen} people={people} />}
+      {open && <Modal open={open} setOpen={setOpen} people={people} chave={key} />}
       <div className='px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:items-center'>
           <div className='sm:flex-auto'>
@@ -36,7 +47,7 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
           <div className='mt-4 sm:ml-16 sm:mt-0 sm:flex-none'>
             <button
               type='button'
-              onClick={() => setOpen(true)}
+              onClick={() => handleAddCustomer()}
               className='block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
             >
               Adicionar usuário
@@ -89,7 +100,7 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
                           {person.phone}
                         </td>
                         <td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
-                          <button className='text-indigo-600 hover:text-indigo-900'>
+                          <button onClick={() => handleEdit(key)} className='text-indigo-600 hover:text-indigo-900'>
                             Editar
                           </button>
                         </td>
