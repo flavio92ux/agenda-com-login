@@ -25,7 +25,7 @@ export default function NavBar({ user }) {
         setPicture(user.picture)
       }
     })
-  }, [])
+  }, [user.picture])
 
   return (
     <nav className='bg-white shadow-lg'>

@@ -86,6 +86,12 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
                       >
                         <span className='sr-only'>Edit</span>
                       </th>
+                      <th
+                        scope='col'
+                        className='relative py-3.5 pl-3 pr-4 sm:pr-6'
+                      >
+                        <span className='sr-only'>Trash</span>
+                      </th>
                     </tr>
                   </thead>
                   <tbody className='divide-y divide-gray-200 bg-white'>
@@ -105,7 +111,7 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
                             Editar
                           </button>
                         </td>
-                        <td>
+                        <td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
                           <button onClick={() => handleDelete(key)}>
                             <TrashIcon className='w-5 h-5' />
                           </button>
