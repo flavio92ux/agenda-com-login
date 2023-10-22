@@ -2,7 +2,6 @@
 
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-//import { Typography } from '@material-tailwind/react'
 import { IMaskInput } from 'react-imask'
 
 export default function AddCustomerModal(props) {
@@ -15,7 +14,7 @@ export default function AddCustomerModal(props) {
   })
 
   useEffect(() => {
-    if (typeof chave ==='number') {
+    if (typeof chave === 'number') {
       setData(people[chave])
     }
   }, [])
@@ -25,7 +24,7 @@ export default function AddCustomerModal(props) {
       people[chave] = data
     } else {
       people.push(data)
-    } 
+    }
     setOpen(false)
   }
 
@@ -72,18 +71,18 @@ export default function AddCustomerModal(props) {
                         as='h3'
                         className='text-base font-semibold leading-6 text-gray-900'
                       >
-                        {typeof chave === 'number' ? 'Editar dados do usuário' : 'Adicionar usuário'}
+                        {typeof chave === 'number'
+                          ? 'Editar dados do usuário'
+                          : 'Adicionar usuário'}
                       </Dialog.Title>
                       <div className='mt-2'>
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
                           <div className='mb-1 flex flex-col gap-6'>
-                            {/* <Typography
-                              variant='h6'
-                              color='blue-gray'
+                            <label
                               className='-mb-3'
-                            >
-                              Nome
-                            </Typography> */}
+                              htmlFor='username'>
+                            Nome
+                            </label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -94,13 +93,8 @@ export default function AddCustomerModal(props) {
                               type='text'
                               placeholder='Nome'
                             />
-                            {/* <Typography
-                              variant='h6'
-                              color='blue-gray'
-                              className='-mb-3'
-                            >
-                              Endereço
-                            </Typography> */}
+
+                            <label className='-mb-3' htmlFor='address'>Endereço</label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -112,14 +106,7 @@ export default function AddCustomerModal(props) {
                               placeholder='Rua Um'
                             />
 
-                            {/* <Typography
-                              variant='h6'
-                              color='blue-gray'
-                              className='-mb-3'
-                            >
-                              Telefone
-                            </Typography> */}
-
+                            <label className='-mb-3' htmlFor='Telefone'>Endereço</label>
                             <IMaskInput
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e: any) =>
@@ -153,7 +140,7 @@ export default function AddCustomerModal(props) {
                     }`}
                     onClick={handleSubmit}
                   >
-                    { typeof chave === 'number' ? 'Editar' : 'Adicionar' } 
+                    {typeof chave === 'number' ? 'Editar' : 'Adicionar'}
                   </button>
                   <button
                     type='button'
