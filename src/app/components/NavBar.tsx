@@ -47,14 +47,14 @@ export default function NavBar({ user }) {
                 Home
               </Link>
               <Link
-                href='/services'
+                href='/agendamentos'
                 className={`py-4 px-2 font-semibold ${
-                  pathname === '/services'
+                  pathname === '/agendamentos'
                     ? 'text-green-500 border-b-4 border-green-500'
                     : 'text-gray-500 hover:text-green-500 transition duration-300'
                 }`}
               >
-                Services
+                Agendamentos
               </Link>
             </div>
           </div>
@@ -112,10 +112,10 @@ export default function NavBar({ user }) {
           </li>
           <li>
             <a
-              href='/services'
+              href='/agendamentos'
               className='block text-sm px-2 py-4 hover:bg-green-500 transition duration-300 font-semibold'
             >
-              Services
+              Agendamentos
             </a>
           </li>
         </ul>
