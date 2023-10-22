@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Modal from './NewCustomerModal'
+import ConfirmationModal from './ConfirmationModal'
 import { TrashIcon } from '@heroicons/react/24/outline'
 
 interface IPeople {
@@ -15,13 +16,12 @@ interface IPrincipalPanel {
 
 export default function PrincipalPanel({ people }: IPrincipalPanel) {
   const [open, setOpen] = useState(false)
-  const [peopleList, setPeopleList] = useState(people)
+  const [showConfirmation, setShowConfirmation] = useState(false)
   const [key, setKey] = useState(null)
 
   function handleDelete(key) {
-    const updatedPeopleList = peopleList.filter((_, index) => index !== key)
-    
-    setPeopleList(updatedPeopleList)
+    setKey(key)
+    setShowConfirmation(true)
   }
 
   function handleAddCustomer() {
@@ -37,6 +37,7 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
   return (
     <>
       {open && <Modal open={open} setOpen={setOpen} people={people} chave={key} />}
+      {showConfirmation && <ConfirmationModal open={showConfirmation} setOpen={setShowConfirmation} people={people} chave={key} />}
       <div className='px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:items-center'>
           <div className='sm:flex-auto'>
@@ -88,7 +89,7 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
                     </tr>
                   </thead>
                   <tbody className='divide-y divide-gray-200 bg-white'>
-                    {peopleList.map((person, key) => (
+                    {people.map((person, key) => (
                       <tr key={key}>
                         <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'>
                           {person.name}
