@@ -17,7 +17,7 @@ export default function AddCustomerModal(props) {
     if (typeof chave === 'number') {
       setData(people[chave])
     }
-  }, [])
+  }, [chave, people])
 
   function handleSubmit() {
     if (typeof chave === 'number') {
