@@ -1,6 +1,7 @@
 'use client'
-import { useState } from "react"
-import Modal from "./NewCustomerModal"
+import { useState } from 'react'
+import Modal from './NewCustomerModal'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 interface IPeople {
   name: string
@@ -81,12 +82,14 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
                           {person.phone}
                         </td>
                         <td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
-                          <a
-                            href='#'
-                            className='text-indigo-600 hover:text-indigo-900'
-                          >
+                          <button className='text-indigo-600 hover:text-indigo-900'>
                             Editar
-                          </a>
+                          </button>
+                        </td>
+                        <td>
+                          <button>
+                            <TrashIcon className='w-5 h-5' />
+                          </button>
                         </td>
                       </tr>
                     ))}
