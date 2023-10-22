@@ -9,7 +9,7 @@ interface IProp {
 
 export const metadata = {
   title: 'App de agenda',
-  description: 'Programação de agenda',
+  description: 'Lista de clientes',
 }
 
 export default async function AdminLayout({ children }: IProp) {
