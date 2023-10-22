@@ -2,8 +2,8 @@
 
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { Typography } from '@material-tailwind/react'
-import { IMaskInput } from 'react-imask'
+//import { Typography } from '@material-tailwind/react'
+//import { IMaskInput } from 'react-imask'
 
 export default function AddCustomerModal(props) {
   const { open, setOpen, people, chave } = props
@@ -76,7 +76,7 @@ export default function AddCustomerModal(props) {
                       </Dialog.Title>
                       <div className='mt-2'>
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
-                          <div className='mb-1 flex flex-col gap-6'>
+                          {/* <div className='mb-1 flex flex-col gap-6'>
                             <Typography
                               variant='h6'
                               color='blue-gray'
@@ -130,7 +130,7 @@ export default function AddCustomerModal(props) {
                               name='phone'
                               placeholder='Enter phone number here'
                             />
-                          </div>
+                          </div> */}
                         </form>
                       </div>
                     </div>
