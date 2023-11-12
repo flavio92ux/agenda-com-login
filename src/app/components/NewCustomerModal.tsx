@@ -6,12 +6,12 @@ import { IMaskInput } from 'react-imask'
 
 function addCustomer(data) {
   const oldData = {
-    name: 'string',
-    phoneNumber: 'string',
-    address: 'string',
-    city: 'string',
-    neighborhood: 'string',
-    number: 'string',
+    name: '',
+    phoneNumber: '',
+    address: '',
+    city: '',
+    neighborhood: '',
+    number: '',
   }
 
   const mergedData = { ...oldData, ...data }
@@ -40,8 +40,11 @@ export default function AddCustomerModal(props) {
 
   const [data, setData] = useState({
     name: '',
-    address: '',
     phoneNumber: '',
+    address: '',
+    city: '',
+    neighborhood: '',
+    number: '',
   })
 
   useEffect(() => {

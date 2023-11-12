@@ -16,9 +16,9 @@ export default function ConfirmationModal(props) {
   const { open, setOpen, people, chave } = props
 
   function handleDelete() {
-    people.splice(chave, 1)
-
     deleteCustomer(people[chave])
+
+    people.splice(chave, 1)
 
     setOpen(false)
   }
