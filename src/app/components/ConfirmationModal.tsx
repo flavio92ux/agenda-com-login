@@ -9,7 +9,7 @@ function deleteCustomer(data) {
     body: JSON.stringify(data),
   }
 
-  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions).then(((res: any) => console.log(res)))
+  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions)
 }
 
 export default function ConfirmationModal(props) {

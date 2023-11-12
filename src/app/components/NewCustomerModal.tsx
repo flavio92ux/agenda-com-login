@@ -4,6 +4,27 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IMaskInput } from 'react-imask'
 
+function addCustomer(data) {
+  const oldData = {
+    name: 'string',
+    phoneNumber: 'string',
+    address: 'string',
+    city: 'string',
+    neighborhood: 'string',
+    number: 'string',
+  }
+
+  const mergedData = { ...oldData, ...data }
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(mergedData),
+  }
+
+  fetch('http://localhost:5108/api/Customer', requestOptions)
+}
+
 function editCustomer(data) {
   const requestOptions = {
     method: 'PUT',
@@ -11,7 +32,7 @@ function editCustomer(data) {
     body: JSON.stringify(data),
   }
 
-  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions).then(((res: any) => console.log(res)))
+  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions)
 }
 
 export default function AddCustomerModal(props) {
@@ -37,6 +58,8 @@ export default function AddCustomerModal(props) {
       editCustomer(data)
     } else {
       people.push(data)
+
+      addCustomer(data)
     }
     setOpen(false)
   }
