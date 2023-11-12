@@ -4,13 +4,32 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IMaskInput } from 'react-imask'
 
+function editCustomer(data) {
+  const data1 = {
+    name: 'flavio',
+    phoneNumber: '11111111112',
+    address: 'dsadsadsad',
+    city: 'asdsadsadsad',
+    neighborhood: 'asdsadsadsad',
+    number: '11111111'
+  }
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data1),
+  }
+
+  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions)
+}
+
 export default function AddCustomerModal(props) {
   const { open, setOpen, people, chave } = props
 
   const [data, setData] = useState({
     name: '',
     address: '',
-    phone: '',
+    phoneNumber: '',
   })
 
   useEffect(() => {
@@ -22,6 +41,8 @@ export default function AddCustomerModal(props) {
   function handleSubmit() {
     if (typeof chave === 'number') {
       people[chave] = data
+
+      editCustomer(data)
     } else {
       people.push(data)
     }
@@ -78,10 +99,8 @@ export default function AddCustomerModal(props) {
                       <div className='mt-2'>
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
                           <div className='mb-1 flex flex-col gap-6'>
-                            <label
-                              className='flex -mb-3'
-                              htmlFor='username'>
-                            Nome
+                            <label className='flex -mb-3' htmlFor='username'>
+                              Nome
                             </label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -94,7 +113,9 @@ export default function AddCustomerModal(props) {
                               placeholder='Digite seu nome'
                             />
 
-                            <label className='flex -mb-3' htmlFor='address'>Endereço</label>
+                            <label className='flex -mb-3' htmlFor='address'>
+                              Endereço
+                            </label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -106,13 +127,18 @@ export default function AddCustomerModal(props) {
                               placeholder='Rua Um'
                             />
 
-                            <label className='flex -mb-3' htmlFor='phone'>Telefone</label>
+                            <label className='flex -mb-3' htmlFor='phone'>
+                              Telefone
+                            </label>
                             <IMaskInput
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e: any) =>
-                                setData({ ...data, phone: e.target.value })
+                                setData({
+                                  ...data,
+                                  phoneNumber: e.target.value,
+                                })
                               }
-                              value={data.phone}
+                              value={data.phoneNumber}
                               mask={mask}
                               name='phone'
                               placeholder='(31) 99999-9999'
@@ -129,12 +155,12 @@ export default function AddCustomerModal(props) {
                     disabled={
                       data.name.length < 3 ||
                       data.address.length < 3 ||
-                      data.phone.length !== 15
+                      data.phoneNumber.length !== 15
                     }
                     className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto ${
                       data.name.length < 3 ||
                       data.address.length < 3 ||
-                      data.phone.length !== 15
+                      data.phoneNumber.length !== 15
                         ? 'bg-gray-300'
                         : 'hover:bg-red-500 bg-red-600'
                     }`}
