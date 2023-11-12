@@ -5,22 +5,13 @@ import { Dialog, Transition } from '@headlessui/react'
 import { IMaskInput } from 'react-imask'
 
 function editCustomer(data) {
-  const data1 = {
-    name: 'flavio',
-    phoneNumber: '11111111112',
-    address: 'dsadsadsad',
-    city: 'asdsadsadsad',
-    neighborhood: 'asdsadsadsad',
-    number: '11111111'
-  }
-
   const requestOptions = {
-    method: 'POST',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data1),
+    body: JSON.stringify(data),
   }
 
-  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions)
+  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions).then(((res: any) => console.log(res)))
 }
 
 export default function AddCustomerModal(props) {
