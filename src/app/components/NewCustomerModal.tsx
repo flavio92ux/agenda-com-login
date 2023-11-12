@@ -31,6 +31,7 @@ export default function AddCustomerModal(props) {
 
   function handleSubmit() {
     if (typeof chave === 'number') {
+      setData(people[chave])
       people[chave] = data
 
       editCustomer(data)

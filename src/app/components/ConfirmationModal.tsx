@@ -2,11 +2,23 @@ import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
+function deleteCustomer(data) {
+  const requestOptions = {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  }
+
+  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions).then(((res: any) => console.log(res)))
+}
+
 export default function ConfirmationModal(props) {
   const { open, setOpen, people, chave } = props
 
   function handleDelete() {
     people.splice(chave, 1)
+
+    deleteCustomer(people[chave])
 
     setOpen(false)
   }
