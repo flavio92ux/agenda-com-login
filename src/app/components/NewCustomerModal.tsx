@@ -4,7 +4,7 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IMaskInput } from 'react-imask'
 
-function addCustomer(data) {
+function addCustomer(data, baseUrl) {
   if (!data.number) {
     data.number = 's/n'
   }
@@ -15,21 +15,21 @@ function addCustomer(data) {
     body: JSON.stringify(data),
   }
 
-  fetch('http://localhost:5108/api/Customer', requestOptions)
+  fetch(`${baseUrl}/api/Customer`, requestOptions)
 }
 
-function editCustomer(data) {
+function editCustomer(data, baseUrl) {
   const requestOptions = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   }
 
-  fetch(`http://localhost:5108/api/Customer/${data.id}`, requestOptions)
+  fetch(`${baseUrl}/api/Customer/${data.id}`, requestOptions)
 }
 
 export default function AddCustomerModal(props) {
-  const { open, setOpen, people, chave } = props
+  const { open, setOpen, people, chave, baseUrl } = props
 
   const [data, setData] = useState({
     name: '',
@@ -51,11 +51,11 @@ export default function AddCustomerModal(props) {
       setData(people[chave])
       people[chave] = data
 
-      editCustomer(data)
+      editCustomer(data, baseUrl)
     } else {
       people.push(data)
 
-      addCustomer(data)
+      addCustomer(data, baseUrl)
     }
     setOpen(false)
   }

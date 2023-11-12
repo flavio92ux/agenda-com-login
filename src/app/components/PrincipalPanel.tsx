@@ -16,9 +16,10 @@ interface IPeople {
 
 interface IPrincipalPanel {
   people: IPeople[]
+  baseUrl: string
 }
 
-export default function PrincipalPanel({ people }: IPrincipalPanel) {
+export default function PrincipalPanel({ people, baseUrl }: IPrincipalPanel) {
   const [open, setOpen] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [key, setKey] = useState(null)
@@ -40,8 +41,8 @@ export default function PrincipalPanel({ people }: IPrincipalPanel) {
 
   return (
     <>
-      {open && <Modal open={open} setOpen={setOpen} people={people} chave={key} />}
-      {showConfirmation && <ConfirmationModal open={showConfirmation} setOpen={setShowConfirmation} people={people} chave={key} />}
+      {open && <Modal open={open} setOpen={setOpen} people={people} chave={key} baseUrl={baseUrl} />}
+      {showConfirmation && <ConfirmationModal open={showConfirmation} setOpen={setShowConfirmation} people={people} chave={key} baseUrl={baseUrl} />}
       <div className='px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:items-center'>
           <div className='sm:flex-auto'>

@@ -1,7 +1,7 @@
 import PrincipalPanel from '@/app/components/PrincipalPanel'
 
 async function getData() {
-  const res = await fetch('http://localhost:5108/api/Customer', {
+  const res = await fetch(`${process.env.BACK_END_BASE_URL}/api/Customer`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -18,9 +18,11 @@ async function getData() {
 export default async function Dashboard() {
   const people = await getData()
 
+  const baseUrl = process.env.BACK_END_BASE_URL
+
   return (
     <>
-      <PrincipalPanel people={people} />
+      <PrincipalPanel people={people} baseUrl={baseUrl} />
     </>
   )
 }
