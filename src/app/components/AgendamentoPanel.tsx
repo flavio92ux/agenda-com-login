@@ -1,21 +1,38 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
+import AgendamentoModal from '@/app/components/AgendamentoModal'
 
 interface IAgendamento {
   id: string
   dateTime: string
+  dateParsed: string
   message: string
   customerId: string
   name: string
 }
 
-interface IProps {
-  agendamentos: IAgendamento[]
+interface ICustomers {
+  id: string,
+  name: string,
+  phoneNumber: string,
+  address: string,
+  city: string,
+  neighborhood: string,
+  number: string
 }
 
-export default function AgendamentoPanel({ agendamentos }: IProps) {
+interface IProps {
+  agendamentos: IAgendamento[]
+  customers: ICustomers[]
+  baseUrl: string
+}
+
+export default function AgendamentoPanel({ agendamentos, customers, baseUrl }: IProps) {
+  const [open, setOpen] = useState(false)
+
   return (
     <>
+      {open && <AgendamentoModal open={open} setOpen={setOpen} customers={customers} baseUrl={baseUrl} />}
       <div className='px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:items-center'>
           <div className='sm:flex-auto'>
@@ -27,6 +44,7 @@ export default function AgendamentoPanel({ agendamentos }: IProps) {
             <button
               type='button'
               className='block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+              onClick={() => setOpen(true)}
             >
               Novo Agendamento
             </button>
@@ -69,7 +87,7 @@ export default function AgendamentoPanel({ agendamentos }: IProps) {
                           {agendamento.message}
                         </td>
                         <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-                          {agendamento.dateTime}
+                          {agendamento.dateParsed}
                         </td>
                       </tr>
                     ))}
