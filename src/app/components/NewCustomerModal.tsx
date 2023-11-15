@@ -4,34 +4,11 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IMaskInput } from 'react-imask'
 
-function addCustomer(data, baseUrl) {
-  if (!data.number) {
-    data.number = 's/n'
-  }
-
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  }
-
-  fetch(`${baseUrl}/api/Customer`, requestOptions)
-}
-
-function editCustomer(data, baseUrl) {
-  const requestOptions = {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  }
-
-  fetch(`${baseUrl}/api/Customer/${data.id}`, requestOptions)
-}
-
 export default function AddCustomerModal(props) {
   const { open, setOpen, people, chave, baseUrl } = props
 
   const [data, setData] = useState({
+    id: '',
     name: '',
     phoneNumber: '',
     address: '',
@@ -46,16 +23,51 @@ export default function AddCustomerModal(props) {
     }
   }, [chave, people])
 
-  function handleSubmit() {
+  async function editCustomer() {
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  
+    const res = await fetch(`${baseUrl}/api/Customer/${data.id}`, requestOptions)
+
+    return res
+  }
+
+  async function addCustomer() {
+    if (!data.number) {
+      data.number = 's/n'
+    }
+  
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  
+    const res = await fetch(`${baseUrl}/api/Customer`, requestOptions)
+
+    return res
+  }
+
+  async function handleSubmit() {
     if (typeof chave === 'number') {
-      setData(people[chave])
-      people[chave] = data
+      const res = await editCustomer()
 
-      editCustomer(data, baseUrl)
+      if (res.ok) {
+        people[chave] = data
+      } else {
+        window.alert('Erro')
+      }
     } else {
-      people.push(data)
+      const res = await addCustomer()
 
-      addCustomer(data, baseUrl)
+      if (res.ok) {
+        people.push(data)
+      } else {
+        window.alert('Erro')
+      }
     }
     setOpen(false)
   }
