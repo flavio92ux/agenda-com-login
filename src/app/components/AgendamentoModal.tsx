@@ -28,27 +28,31 @@ export default function AddCustomerModal(props) {
       body: JSON.stringify(data),
     }
 
-    fetch(`${baseUrl}/api/Appointment`, requestOptions).then(() => {
-      let name = 'user'
+    fetch(`${baseUrl}/api/Appointment`, requestOptions).then((res) => {
+      if (res.ok) {
+        let name = 'user'
 
-      try {
-        name = customers.find(customer => customer.id === data.customerId).name
-      } catch (error) {
-        console.error(error)
+        try {
+          name = customers.find(customer => customer.id === data.customerId).name
+        } catch (error) {
+          console.error(error)
+        }
+  
+        const novoAgendamento = {
+          id: '',
+          dateTime: data.dateTime,
+          message: data.message,
+          customerId: data.customerId,
+          dateParsed: format(data.dateTime, "dd/MM/yyyy HH:mm:ss"),
+          name,
+        }
+  
+        agendamentos.push(novoAgendamento)
+  
+        setOpen(false)
+      } else {
+        window.alert('Erro no cadastramento da api')
       }
-
-      const novoAgendamento = {
-        id: '',
-        dateTime: data.dateTime,
-        message: data.message,
-        customerId: data.customerId,
-        dateParsed: format(data.dateTime, "dd/MM/yyyy HH:mm:ss"),
-        name,
-      }
-
-      agendamentos.push(novoAgendamento)
-
-      setOpen(false)
     })
   }
 
