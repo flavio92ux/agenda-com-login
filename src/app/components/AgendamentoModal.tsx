@@ -102,7 +102,7 @@ export default function AddCustomerModal(props) {
                         as='h3'
                         className='text-2xl font-semibold leading-6 text-gray-900'
                       >
-                        Adicionar Mensagem
+                        Novo Agendamento
                       </Dialog.Title>
                       <div className='mt-2'>
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
