@@ -22,6 +22,11 @@ export default function AddCustomerModal(props) {
   const cancelButtonRef = useRef(null)
 
   function handleSubmit() {
+    data.message = `Olá, aqui é da empresa A e está confirmada a visita no endereço XXXX na data ${format(
+      data.dateTime,
+      'dd/MM/yyyy HH:mm:ss'
+    )}`
+
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -33,22 +38,24 @@ export default function AddCustomerModal(props) {
         let name = 'user'
 
         try {
-          name = customers.find(customer => customer.id === data.customerId).name
+          name = customers.find(
+            (customer) => customer.id === data.customerId
+          ).name
         } catch (error) {
           console.error(error)
         }
-  
+
         const novoAgendamento = {
           id: '',
           dateTime: data.dateTime,
           message: data.message,
           customerId: data.customerId,
-          dateParsed: format(data.dateTime, "dd/MM/yyyy HH:mm:ss"),
+          dateParsed: format(data.dateTime, 'dd/MM/yyyy HH:mm:ss'),
           name,
         }
-  
+
         agendamentos.push(novoAgendamento)
-  
+
         setOpen(false)
       } else {
         window.alert('Erro no cadastramento da api')
@@ -122,7 +129,7 @@ export default function AddCustomerModal(props) {
                               ))}
                             </select>
 
-                            <label className='flex -mb-3' htmlFor='address'>
+                            {/* <label className='flex -mb-3' htmlFor='address'>
                               Menssagem
                             </label>
                             <input
@@ -134,17 +141,17 @@ export default function AddCustomerModal(props) {
                               id='address'
                               type='text'
                               placeholder='Rua Um'
-                            />
+                            /> */}
 
                             <label className='flex -mb-3' htmlFor='address'>
-                              Data de Envio
+                              Data da consulta
                             </label>
 
                             <DatePicker
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               selected={data.dateTime}
                               locale='ptBR'
-                              dateFormat='dd/MM/yyyy'
+                              dateFormat='dd/MM/yyyy HH:mm'
                               showTimeSelect
                               onChange={(e) =>
                                 setData({ ...data, dateTime: e })
@@ -159,11 +166,9 @@ export default function AddCustomerModal(props) {
                 <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
                   <button
                     type='button'
-                    disabled={!data.customerId || data.message.length < 3}
+                    disabled={!data.customerId || data.dateTime < new Date()}
                     className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto ${
-                      data.customerId.length < 3 ||
-                      data.message.length < 3 ||
-                      data.dateTime < new Date()
+                      data.customerId.length < 3 || data.dateTime < new Date()
                         ? 'bg-gray-300'
                         : 'hover:bg-red-500 bg-red-600'
                     }`}
