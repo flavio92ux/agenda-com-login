@@ -36,12 +36,12 @@ export default async function Agendamentos() {
   const customers = await getAllCustomers()
 
   agendamentos.forEach((item) => {
-    const customerAssociate = customers.find((j) => j.id === item.customerId)
+    if (item && item.customerId) {
+      const customerAssociate = customers.find((j) => j.id === item.customerId)
 
-    item.dateParsed = format(parseISO(item.dateTime), "dd/MM/yyyy HH:mm:ss");
-    item.name = customerAssociate.name
-
-    return item
+      item.dateParsed = format(parseISO(item.dateTime), "dd/MM/yyyy HH:mm:ss");
+      item.name = customerAssociate.name
+    }
   })
 
   const baseUrl = process.env.BACK_END_BASE_URL

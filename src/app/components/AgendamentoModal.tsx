@@ -1,43 +1,55 @@
 'use client'
 
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import DatePicker, { registerLocale } from 'react-datepicker'
 import { format } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+
+registerLocale('ptBR', ptBR)
+
+import 'react-datepicker/dist/react-datepicker.css'
 
 export default function AddCustomerModal(props) {
-  const { open, setOpen, customers, baseUrl } = props
+  const { open, setOpen, customers, agendamentos, baseUrl } = props
 
-  function addMessage() {
+  const [data, setData] = useState({
+    customerId: '',
+    message: '',
+    dateTime: new Date(),
+  })
+
+  const cancelButtonRef = useRef(null)
+
+  function handleSubmit() {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }
 
-    fetch(`${baseUrl}/api/Appointment`, requestOptions)
-  }
+    fetch(`${baseUrl}/api/Appointment`, requestOptions).then(() => {
+      let name = 'user'
 
-  const [data, setData] = useState({
-    customerId: '',
-    message: '',
-    dateTime: ''
-  })
+      try {
+        name = customers.find(customer => customer.id === data.customerId).name
+      } catch (error) {
+        console.error(error)
+      }
 
-  const cancelButtonRef = useRef(null)
+      const novoAgendamento = {
+        id: '',
+        dateTime: data.dateTime,
+        message: data.message,
+        customerId: data.customerId,
+        dateParsed: format(data.dateTime, "dd/MM/yyyy HH:mm:ss"),
+        name,
+      }
 
-  function handleSubmit() {
-    const date = new Date()
-    const dateTime = format(date, "yyyy-MM-dd'T'HH:mm:ss.SSS")
+      agendamentos.push(novoAgendamento)
 
-    const newData = data
-
-    newData.dateTime = dateTime
-
-    setData(newData)
-
-    console.log(data)
-
-    // addMessage()
+      setOpen(false)
+    })
   }
 
   return (
@@ -119,6 +131,21 @@ export default function AddCustomerModal(props) {
                               type='text'
                               placeholder='Rua Um'
                             />
+
+                            <label className='flex -mb-3' htmlFor='address'>
+                              Data de Envio
+                            </label>
+
+                            <DatePicker
+                              className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              selected={data.dateTime}
+                              locale='ptBR'
+                              dateFormat='dd/MM/yyyy'
+                              showTimeSelect
+                              onChange={(e) =>
+                                setData({ ...data, dateTime: e })
+                              }
+                            />
                           </div>
                         </form>
                       </div>
@@ -130,7 +157,9 @@ export default function AddCustomerModal(props) {
                     type='button'
                     disabled={!data.customerId || data.message.length < 3}
                     className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto ${
-                      data.customerId.length < 3 || data.message.length < 3
+                      data.customerId.length < 3 ||
+                      data.message.length < 3 ||
+                      data.dateTime < new Date()
                         ? 'bg-gray-300'
                         : 'hover:bg-red-500 bg-red-600'
                     }`}

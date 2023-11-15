@@ -32,7 +32,7 @@ export default function AgendamentoPanel({ agendamentos, customers, baseUrl }: I
 
   return (
     <>
-      {open && <AgendamentoModal open={open} setOpen={setOpen} customers={customers} baseUrl={baseUrl} />}
+      {open && <AgendamentoModal open={open} setOpen={setOpen} agendamentos={agendamentos} customers={customers} baseUrl={baseUrl} />}
       <div className='px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:items-center'>
           <div className='sm:flex-auto'>
