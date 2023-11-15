@@ -6,6 +6,7 @@ interface IAgendamento {
   dateTime: string
   message: string
   customerId: string
+  name: string
 }
 
 interface IProps {
@@ -27,7 +28,7 @@ export default function AgendamentoPanel({ agendamentos }: IProps) {
               type='button'
               className='block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
             >
-              Adicionar usuário
+              Novo Agendamento
             </button>
           </div>
         </div>
@@ -56,25 +57,13 @@ export default function AgendamentoPanel({ agendamentos }: IProps) {
                       >
                         Data de envio
                       </th>
-                      <th
-                        scope='col'
-                        className='relative py-3.5 pl-3 pr-4 sm:pr-6'
-                      >
-                        <span className='sr-only'>Edit</span>
-                      </th>
-                      <th
-                        scope='col'
-                        className='relative py-3.5 pl-3 pr-4 sm:pr-6'
-                      >
-                        <span className='sr-only'>Trash</span>
-                      </th>
                     </tr>
                   </thead>
                   <tbody className='divide-y divide-gray-200 bg-white'>
                     {agendamentos.map((agendamento, key) => (
                       <tr key={key}>
                         <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'>
-                          {agendamento.customerId}
+                          {agendamento.name}
                         </td>
                         <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                           {agendamento.message}
