@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.react-datepicker-popper {
+  transform: translate3d(40px, 111px, 0px) !important;
+}
