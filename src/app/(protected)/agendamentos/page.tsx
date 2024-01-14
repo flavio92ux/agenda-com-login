@@ -7,7 +7,7 @@ async function getAppointment() {
     headers: {
       Accept: 'application/json',
     },
-  })
+  }) // teste
 
   if (!res.ok) {
     throw new Error('Failed to fetch data')
