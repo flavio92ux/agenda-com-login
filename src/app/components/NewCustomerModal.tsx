@@ -2,30 +2,73 @@
 
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { Typography } from '@material-tailwind/react'
 import { IMaskInput } from 'react-imask'
 
 export default function AddCustomerModal(props) {
-  const { open, setOpen, people, chave } = props
+  const { open, setOpen, people, chave, baseUrl } = props
 
   const [data, setData] = useState({
+    id: '',
     name: '',
+    phoneNumber: '',
     address: '',
-    phone: '',
+    city: '',
+    neighborhood: '',
+    number: '',
   })
 
   useEffect(() => {
-    if (typeof chave ==='number') {
+    if (typeof chave === 'number') {
       setData(people[chave])
     }
-  }, [])
+  }, [chave, people])
 
-  function handleSubmit() {
+  async function editCustomer() {
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  
+    const res = await fetch(`${baseUrl}/api/Customer/${data.id}`, requestOptions)
+
+    return res
+  }
+
+  async function addCustomer() {
+    if (!data.number) {
+      data.number = 's/n'
+    }
+  
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  
+    const res = await fetch(`${baseUrl}/api/Customer`, requestOptions)
+
+    return res
+  }
+
+  async function handleSubmit() {
     if (typeof chave === 'number') {
-      people[chave] = data
+      const res = await editCustomer()
+
+      if (res.ok) {
+        people[chave] = data
+      } else {
+        window.alert('Erro')
+      }
     } else {
-      people.push(data)
-    } 
+      const res = await addCustomer()
+
+      if (res.ok) {
+        people.push(data)
+      } else {
+        window.alert('Erro')
+      }
+    }
     setOpen(false)
   }
 
@@ -54,7 +97,7 @@ export default function AddCustomerModal(props) {
         </Transition.Child>
 
         <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-          <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
+          <div className='flex lg:min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
             <Transition.Child
               as={Fragment}
               enter='ease-out duration-300'
@@ -64,26 +107,24 @@ export default function AddCustomerModal(props) {
               leaveFrom='opacity-100 translate-y-0 sm:scale-100'
               leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
             >
-              <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
+              <Dialog.Panel className='relative transform overflow-hidden mt-12 rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
                 <div className='bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
                   <div className='sm:flex sm:items-start'>
                     <div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left'>
                       <Dialog.Title
                         as='h3'
-                        className='text-base font-semibold leading-6 text-gray-900'
+                        className='text-2xl font-semibold leading-6 text-gray-900'
                       >
-                        {typeof chave === 'number' ? 'Editar dados do usuário' : 'Adicionar usuário'}
+                        {typeof chave === 'number'
+                          ? 'Editar dados do usuário'
+                          : 'Adicionar usuário'}
                       </Dialog.Title>
                       <div className='mt-2'>
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
                           <div className='mb-1 flex flex-col gap-6'>
-                            <Typography
-                              variant='h6'
-                              color='blue-gray'
-                              className='-mb-3'
-                            >
+                            <label className='flex -mb-3' htmlFor='username'>
                               Nome
-                            </Typography>
+                            </label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -92,15 +133,12 @@ export default function AddCustomerModal(props) {
                               value={data.name}
                               id='username'
                               type='text'
-                              placeholder='Nome'
+                              placeholder='Digite seu nome'
                             />
-                            <Typography
-                              variant='h6'
-                              color='blue-gray'
-                              className='-mb-3'
-                            >
-                              Endereço
-                            </Typography>
+
+                            <label className='flex -mb-3' htmlFor='address'>
+                              Rua
+                            </label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -112,23 +150,75 @@ export default function AddCustomerModal(props) {
                               placeholder='Rua Um'
                             />
 
-                            <Typography
-                              variant='h6'
-                              color='blue-gray'
-                              className='-mb-3'
-                            >
-                              Telefone
-                            </Typography>
+                            <label className='flex -mb-3' htmlFor='number'>
+                              Número residência
+                            </label>
+                            <input
+                              className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              onChange={(e) =>
+                                setData({ ...data, number: e.target.value })
+                              }
+                              value={data.number}
+                              id='number'
+                              type='text'
+                              placeholder='Digite seu nome'
+                            />
 
+                            <label
+                              className='flex -mb-3'
+                              htmlFor='neighborhood'
+                            >
+                              Bairro
+                            </label>
+                            <input
+                              className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              onChange={(e) =>
+                                setData({
+                                  ...data,
+                                  neighborhood: e.target.value,
+                                })
+                              }
+                              value={data.neighborhood}
+                              id='neighborhood'
+                              type='text'
+                              placeholder='Digite seu nome'
+                            />
+
+                            <label
+                              className='flex -mb-3'
+                              htmlFor='city'
+                            >
+                              Cidade
+                            </label>
+                            <input
+                              className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              onChange={(e) =>
+                                setData({
+                                  ...data,
+                                  city: e.target.value,
+                                })
+                              }
+                              value={data.city}
+                              id='city'
+                              type='text'
+                              placeholder='Digite seu nome'
+                            />
+
+                            <label className='flex -mb-3' htmlFor='phone'>
+                              Telefone
+                            </label>
                             <IMaskInput
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e: any) =>
-                                setData({ ...data, phone: e.target.value })
+                                setData({
+                                  ...data,
+                                  phoneNumber: e.target.value,
+                                })
                               }
-                              value={data.phone}
+                              value={data.phoneNumber}
                               mask={mask}
                               name='phone'
-                              placeholder='Enter phone number here'
+                              placeholder='(31) 99999-9999'
                             />
                           </div>
                         </form>
@@ -142,18 +232,22 @@ export default function AddCustomerModal(props) {
                     disabled={
                       data.name.length < 3 ||
                       data.address.length < 3 ||
-                      data.phone.length !== 15
+                      data.city.length < 3 ||
+                      data.neighborhood.length < 2 ||
+                      data.phoneNumber.length !== 15
                     }
                     className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto ${
                       data.name.length < 3 ||
                       data.address.length < 3 ||
-                      data.phone.length !== 15
+                      data.city.length < 3 ||
+                      data.neighborhood.length < 2 ||
+                      data.phoneNumber.length !== 15
                         ? 'bg-gray-300'
                         : 'hover:bg-red-500 bg-red-600'
                     }`}
                     onClick={handleSubmit}
                   >
-                    { typeof chave === 'number' ? 'Editar' : 'Adicionar' } 
+                    {typeof chave === 'number' ? 'Editar' : 'Adicionar'}
                   </button>
                   <button
                     type='button'

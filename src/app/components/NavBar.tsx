@@ -4,7 +4,9 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 import calendario from '@/assets/img/calendario.png'
+import userIcon from '@/assets/img/user.png'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 function toogleMenu() {
   const menu = document.querySelector('.mobile-menu')
@@ -14,6 +16,16 @@ function toogleMenu() {
 
 export default function NavBar({ user }) {
   const pathname = usePathname()
+
+  const [picture, setPicture] = useState(userIcon)
+
+  useEffect(() => {
+    fetch(user.picture).then((res) => {
+      if (res.ok === true) {
+        setPicture(user.picture)
+      }
+    })
+  }, [user.picture])
 
   return (
     <nav className='bg-white shadow-lg'>
@@ -62,7 +74,7 @@ export default function NavBar({ user }) {
           <div className='hidden md:flex items-center space-x-3 '>
             <div className='flex flex-row items-center'>
               <Image
-                src={user.picture}
+                src={picture}
                 width={32}
                 height={32}
                 alt='calendário'
