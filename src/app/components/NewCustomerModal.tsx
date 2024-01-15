@@ -45,10 +45,15 @@ export default function AddCustomerModal(props) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }
-  
-    const res = await fetch(`${baseUrl}/api/Customer`, requestOptions)
 
-    return res
+    try {
+      const res = await fetch(`${baseUrl}/api/Customer`, requestOptions)
+
+      return res
+    } catch (error) {
+      console.error('Try catch add Customer ->', error)
+    }
+  
   }
 
   async function handleSubmit() {
