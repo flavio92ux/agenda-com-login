@@ -1,15 +1,12 @@
 import { getSession } from '@auth0/nextjs-auth0'
-import { redirect } from "next/navigation"
+import { redirect } from 'next/navigation'
 
 import NavBar from '@/app/components/NavBar'
 
+import Head from 'next/head'
+
 interface IProp {
   children: React.ReactNode
-}
-
-export const metadata = {
-  title: 'App de agenda',
-  description: 'Lista de clientes',
 }
 
 export default async function AdminLayout({ children }: IProp) {
@@ -21,11 +18,18 @@ export default async function AdminLayout({ children }: IProp) {
 
   return (
     <html lang='en'>
-        <body>
-          <NavBar user={session.user} />
-          <div className='mb-4' />
-          {children}
-        </body>
+      <head>
+        <title>App de agenda</title>
+        <meta name='description' content='App de agendamento de tarefas' />
+        {/* <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+        <link rel='icon' href='/favicon.ico' />
+      </head>
+      <body>
+        <NavBar user={session.user} />
+        <div className='mb-4' />
+        {children}
+      </body>
     </html>
   )
 }

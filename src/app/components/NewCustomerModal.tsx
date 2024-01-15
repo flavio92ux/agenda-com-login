@@ -5,12 +5,16 @@ import { Dialog, Transition } from '@headlessui/react'
 import { IMaskInput } from 'react-imask'
 
 export default function AddCustomerModal(props) {
-  const { open, setOpen, people, chave } = props
+  const { open, setOpen, people, chave, baseUrl } = props
 
   const [data, setData] = useState({
+    id: '',
     name: '',
+    phoneNumber: '',
     address: '',
-    phone: '',
+    city: '',
+    neighborhood: '',
+    number: '',
   })
 
   useEffect(() => {
@@ -19,11 +23,51 @@ export default function AddCustomerModal(props) {
     }
   }, [chave, people])
 
-  function handleSubmit() {
+  async function editCustomer() {
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  
+    const res = await fetch(`${baseUrl}/api/Customer/${data.id}`, requestOptions)
+
+    return res
+  }
+
+  async function addCustomer() {
+    if (!data.number) {
+      data.number = 's/n'
+    }
+  
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  
+    const res = await fetch(`${baseUrl}/api/Customer`, requestOptions)
+
+    return res
+  }
+
+  async function handleSubmit() {
     if (typeof chave === 'number') {
-      people[chave] = data
+      const res = await editCustomer()
+
+      if (res.ok) {
+        people[chave] = data
+      } else {
+        window.alert('Erro')
+      }
     } else {
-      people.push(data)
+      const res = await addCustomer()
+
+      if (res.ok) {
+        people.push(data)
+      } else {
+        window.alert('Erro')
+      }
     }
     setOpen(false)
   }
@@ -78,10 +122,8 @@ export default function AddCustomerModal(props) {
                       <div className='mt-2'>
                         <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96'>
                           <div className='mb-1 flex flex-col gap-6'>
-                            <label
-                              className='flex -mb-3'
-                              htmlFor='username'>
-                            Nome
+                            <label className='flex -mb-3' htmlFor='username'>
+                              Nome
                             </label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -94,7 +136,9 @@ export default function AddCustomerModal(props) {
                               placeholder='Digite seu nome'
                             />
 
-                            <label className='flex -mb-3' htmlFor='address'>Endereço</label>
+                            <label className='flex -mb-3' htmlFor='address'>
+                              Rua
+                            </label>
                             <input
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e) =>
@@ -106,13 +150,72 @@ export default function AddCustomerModal(props) {
                               placeholder='Rua Um'
                             />
 
-                            <label className='flex -mb-3' htmlFor='phone'>Telefone</label>
+                            <label className='flex -mb-3' htmlFor='number'>
+                              Número residência
+                            </label>
+                            <input
+                              className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              onChange={(e) =>
+                                setData({ ...data, number: e.target.value })
+                              }
+                              value={data.number}
+                              id='number'
+                              type='text'
+                              placeholder='Digite seu nome'
+                            />
+
+                            <label
+                              className='flex -mb-3'
+                              htmlFor='neighborhood'
+                            >
+                              Bairro
+                            </label>
+                            <input
+                              className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              onChange={(e) =>
+                                setData({
+                                  ...data,
+                                  neighborhood: e.target.value,
+                                })
+                              }
+                              value={data.neighborhood}
+                              id='neighborhood'
+                              type='text'
+                              placeholder='Digite seu nome'
+                            />
+
+                            <label
+                              className='flex -mb-3'
+                              htmlFor='city'
+                            >
+                              Cidade
+                            </label>
+                            <input
+                              className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                              onChange={(e) =>
+                                setData({
+                                  ...data,
+                                  city: e.target.value,
+                                })
+                              }
+                              value={data.city}
+                              id='city'
+                              type='text'
+                              placeholder='Digite seu nome'
+                            />
+
+                            <label className='flex -mb-3' htmlFor='phone'>
+                              Telefone
+                            </label>
                             <IMaskInput
                               className='shadow h-[50px] focus:border-gray-900 rounded-xl appearance-none border-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                               onChange={(e: any) =>
-                                setData({ ...data, phone: e.target.value })
+                                setData({
+                                  ...data,
+                                  phoneNumber: e.target.value,
+                                })
                               }
-                              value={data.phone}
+                              value={data.phoneNumber}
                               mask={mask}
                               name='phone'
                               placeholder='(31) 99999-9999'
@@ -129,12 +232,16 @@ export default function AddCustomerModal(props) {
                     disabled={
                       data.name.length < 3 ||
                       data.address.length < 3 ||
-                      data.phone.length !== 15
+                      data.city.length < 3 ||
+                      data.neighborhood.length < 2 ||
+                      data.phoneNumber.length !== 15
                     }
                     className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto ${
                       data.name.length < 3 ||
                       data.address.length < 3 ||
-                      data.phone.length !== 15
+                      data.city.length < 3 ||
+                      data.neighborhood.length < 2 ||
+                      data.phoneNumber.length !== 15
                         ? 'bg-gray-300'
                         : 'hover:bg-red-500 bg-red-600'
                     }`}
