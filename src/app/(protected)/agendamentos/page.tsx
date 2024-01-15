@@ -40,7 +40,7 @@ export default async function Agendamentos() {
       const customerAssociate = customers.find((j) => j.id === item.customerId)
 
       item.dateParsed = format(parseISO(item.dateTime), "dd/MM/yyyy HH:mm:ss");
-      item.name = customerAssociate.name
+      item.name = customerAssociate ? customerAssociate.name : ""
     }
   })
 

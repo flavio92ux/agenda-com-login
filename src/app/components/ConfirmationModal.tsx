@@ -17,12 +17,13 @@ export default function ConfirmationModal(props) {
         if (res.ok) {
           people.splice(chave, 1)
           setOpen(false)
-        } else {
-          window.alert("Não é possível excluir usuário com agendamento")
-          setOpen(false)
         }
       })
-      .catch((error) => console.error(error))
+      .catch((error) => {
+        window.alert("Não é possível excluir usuário com agendamento")
+        setOpen(false)
+        console.error(error)
+      })
   }
 
   const cancelButtonRef = useRef(null)
