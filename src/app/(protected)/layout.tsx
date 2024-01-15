@@ -21,7 +21,7 @@ export default async function AdminLayout({ children }: IProp) {
       <head>
         <title>App de agenda</title>
         <meta name='description' content='App de agendamento de tarefas' />
-        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        {/* <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
         <link rel='icon' href='/favicon.ico' />
       </head>
       <body>
