@@ -3,8 +3,6 @@ import { redirect } from 'next/navigation'
 
 import NavBar from '@/app/components/NavBar'
 
-import Head from 'next/head'
-
 interface IProp {
   children: React.ReactNode
 }
