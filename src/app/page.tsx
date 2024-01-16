@@ -6,7 +6,7 @@ export default async function Index() {
   const session = await getSession()
 
   if (session) {
-    redirect('/dashboard') //
+    redirect('/dashboard')
   }
 
   redirect('/api/auth/login')
